@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music - GATVOX</title>
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Embedded CSS -->
+    <style>
+        /* General Styles */
+    
+        .musicall {
+            padding: 20px;
+        }
+
+        .nav-item {
+            margin-left: 15px;
+            color: white;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: #e0e0e0;
+        }
+
+        /* Offline Message Styles */
+        #offline-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #offline-message i {
+            font-size: 50px;
+            margin-top: 20px;
+        }
+
+        
+
+        /* Search Bar Styles */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-bar input {
+            width: 50%;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        /* Genre List Styles */
+        .genre-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .genre-item {
+            background-color: #25D366;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .genre-item:hover {
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        /* Music List Styles */
+        .music-list {
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+
+        }
+
+        .music-item {
+            background: linear-gradient(135deg, #0f0333, #1a005e);
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            border-radius: 20px;
+            border: 2px solid #25D366;
+            margin-bottom: 40px;
+
+            
+        }
+        .music-item:hover {
+            
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        .music-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .music-details {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .music-details h3 {
+            margin: 0;
+            font-size: 18px;
+            color:  #25D366;;
+
+        }
+
+        .music-details span{
+            color: #d021ff;
+            border: 5px;
+            border-radius: 5px;
+            box-shadow:  
+            transform: scale(1.05);
+        }
+
+        .music-details p {
+            margin: 5px 0;
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .button-group :hover {
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        .add-to-playlist,
+        .like-button,
+        .tip-button,
+        .upload-button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        
+
+
+
+
+
+/* Comment Section Styles */
+.comment-section {
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid #444;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.comment-input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.comment-btn, .submit-comment {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.comment-btn:hover, .submit-comment:hover {
+    background: linear-gradient(45deg, #ff33a6, #d021ff);
+    transform: scale(1.05);
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.comment-item span {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.comment-item img {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+}
+
+
+        /* Notification Styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .notification {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            opacity: 0.95;
+            display: flex;
+            align-items: center;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            min-width: 250px;
+        }
+
+        .notification.success {
+            background-color: #4CAF50;
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .notification i {
+            margin-right: 10px;
+        }
+
+
+
+
+
+.audio-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: #2c3e50; /* Dark, sleek background */
+    max-width: 400px; /* Adjust to fit inside a container */
+    margin: 20px auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    border: 2px solid #25D366;
+    transition: transform 0.3s ease;
+    color: white;
+    
+    
+
+.music-controls {
+    display: flex;
+    gap: 20px; /* Adjust spacing between buttons */
+    align-items: center;
+}
+
+.control-btn {
+    background-color: #1d1d1d; /* Dark background */
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background-color: #2b2b2b; /* Slightly lighter on hover */
+}
+
+.control-btn i {
+    color: #25D366;
+    font-size: 24px; /* Adjust icon size */
+    transition: color 0.3s ease;
+}
+
+.control-btn:hover i {
+    color: #d021ff;
+}
+
+
+
+
+
+
+
+        @keyframes fadein {
+            from {
+                right: -300px;
+                opacity: 0;
+            }
+
+            to {
+                right: 20px;
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                right: 20px;
+                opacity: 0.95;
+            }
+
+            to {
+                right: -300px;
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .music-list {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group button {
+                margin-bottom: 5px;
+            }
+
+            .comment-section {
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .search-bar input {
+                width: 80%;
+            }
+        }
+
+        /* Focus Styles for Accessibility */
+        button:focus,
+        a:focus,
+        input:focus {
+            outline: 2px solid #25D366;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Offline Message 
+    <div id="offline-message">
+        <div class="offline-container">
+            <h2>You're Offline</h2>
+            <p>Please check your internet connection or reload the page.</p>
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+    </div>-->
+
+    <!-- Notification Container -->
+    <div class="notification-container"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="dashboard.html" style="color: white; text-decoration:none;"><h1>GATVOX</h1></a>
+            <a href="wallet.html" class="nav-item" aria-label="Wallet">
+                <i class="fas fa-wallet" style="color: white; font-size: 1.5rem;"></i>
+            </a>
+             <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search..." aria-label="Search GatVox" oninput="searchMusic()" />
+            </div>
+            <div class="profile-info">
+                <a href="profile.html"><img id="profile-picture" src="unknown.jpg" alt="Profile Picture"
+                        class="profile-picture" /></a>
+                <a href="profile.html" style="text-decoration: none; color: white;">
+                </a>
+            </div>
+        </header>
+
+ <div class="musicall">       
+   
+        
+
+        <!-- Genre List -->
+        <div class="genre-list" id="genre-list">
+            <!-- Example Genres (Replace with dynamic content if needed) -->
+            <div class="genre-item" onclick="filterByGenre('All')">All</div>
+            <div class="genre-item" onclick="filterByGenre('Pop')">Pop</div>
+            <div class="genre-item" onclick="filterByGenre('Gospel')">Gospel</div>
+            <div class="genre-item" onclick="filterByGenre('Hip-Hop')">Hip-Hop</div>
+            <div class="genre-item" onclick="filterByGenre('Others')">Others</div>
+            
+            
+            
+            <!-- Add more genres as needed -->
+        </div>
+
+        <!-- Music List -->
+        <div class="music-list" id="music-list">
+            <!-- Example Static Music Item (Replace with dynamic content via JavaScript) -->
+           
+
+           <div class="music-item" data-genre="Pop">
+                <img class="music-thumbnail" src="Lil Wayne - _Far From Love.jpg" alt="Album art for Far From Love"/>
+                <div class="music-details">
+                    <h3>Far From Love</h3>
+                    <p>Lil Wayne</p>
+                    <span class="song_genre">Pop</span>
+                    <div class="button-group">
+                        
+                        <button class="add-to-playlist" onclick="addToPlaylist('musicId')"
+                            aria-label="Add to Playlist"><i class="bi bi-plus-circle"></i> Playlist</button>
+                        <button class="like-button" onclick="likeSong(this)('musicId')" aria-label="Like this song"><i class="bi bi-heart"></i></button><button class="like-button">0</button>
+                        <button class="tip-button" onclick="tipGary('musicId')" aria-label="Tip the artist"><i class="bi bi-coin"></i> (0)</button>
+                    </div>
+                    
+
+                    <div class="audio-container">
+                        <div class="music-controls">
+                            <button class="back control-btn">
+                                <i class="bi bi-skip-backward-fill"></i>
+                            </button>
+
+                            <img class="icon" src="play.png" width="40"> </img>
+
+                            <button class="forward control-btn">
+                                <i class="bi bi-skip-forward-fill"></i>
+                            </button>
+                            <audio class="mySong">
+                                <source src="Lil Wayne - _Far From Love.mp3" type="audio/mp3">
+                            </audio>
+                        </div>   
+                    </div>
+                    <div class="comment-section">
+                            <button class="comment-btn" onclick="toggleComments(this)">Comment</button>
+                            <div class="comments" style="display:none;">
+                                <input type="text" class="comment-input" placeholder="Add a comment...">
+                                <button class="submit-comment" onclick="addComment(this)">Submit</button>
+                                <ul class="comment-list"></ul>
+                            </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            
+
+
+            <div class="music-item" data-genre="Gospel">
+                <img class="music-thumbnail" src="Frank_Edwards_-_Mighty_Warrior.jpg" alt="Album art for Far From Love"/>
+                <div class="music-details">
+                    <h3>Mighty_Warrior</h3>
+                    <p>Frank_Edwards</p>
+                    <span class="song_genre">Gospel</span>
+                    <div class="button-group">
+                        
+                        <button class="add-to-playlist" onclick="addToPlaylist('musicId')"
+                            aria-label="Add to Playlist"><i class="bi bi-plus-circle"></i> Playlist</button>
+                        <button class="like-button" onclick="likeSong(this)('musicId')" aria-label="Like this song"><i class="bi bi-heart"></i></button><button class="like-button">0</button>
+                        <button class="tip-button" onclick="tipGary('musicId')" aria-label="Tip the artist"><i class="bi bi-coin"></i> (0)</button>
+                    </div>
+                     <div class="audio-container">
+                        <div class="music-controls">
+                            <button class="back control-btn">
+                                <i class="bi bi-skip-backward-fill"></i>
+                            </button>
+
+                            <img class="icon" src="play.png" width="40"> </img>
+
+                            <button class="forward control-btn">
+                                <i class="bi bi-skip-forward-fill"></i>
+                            </button>
+                            <audio class="mySong">
+                                <source src="Frank_Edwards_-_Mighty_Warrior.mp3" type="audio/mp3">
+                            </audio>
+                        </div>   
+                    </div>
+                    <div class="comment-section">
+                            <button class="comment-btn" onclick="toggleComments(this)">Comment</button>
+                            <div class="comments" style="display:none;">
+                                <input type="text" class="comment-input" placeholder="Add a comment...">
+                                <button class="submit-comment" onclick="addComment(this)">Submit</button>
+                                <ul class="comment-list"></ul>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="music-item" data-genre="Hip-Hop">
+                <img class="music-thumbnail" src="chris-brown-davido-hmmm.jpg" alt="Album art for Far From Love"/>
+                <div class="music-details">
+                    <h3>Hmmm</h3>
+                    <p>Chris-brown X Davido</p>
+                    <span class="song_genre">Hip-Hop</span>
+                    <div class="button-group">
+                        
+                        <button class="add-to-playlist" onclick="addToPlaylist('musicId')"
+                            aria-label="Add to Playlist"><i class="bi bi-plus-circle"></i> Playlist</button>
+                        <button class="like-button" onclick="likeSong(this)('musicId')" aria-label="Like this song"><i class="bi bi-heart"></i></button><button class="like-button">0</button>
+                        <button class="tip-button" onclick="tipGary('musicId')" aria-label="Tip the artist"><i class="bi bi-coin"></i> (0)</button>
+                    </div>
+                     <div class="audio-container">
+                        <div class="music-controls">
+                            <button class="back control-btn">
+                                <i class="bi bi-skip-backward-fill"></i>
+                            </button>
+
+                            <img class="icon" src="play.png" width="40"> </img>
+
+                            <button class="forward control-btn">
+                                <i class="bi bi-skip-forward-fill"></i>
+                            </button>
+                            <audio class="mySong">
+                                <source src="Chris_Brown_Ft_Davido_-_Hmmm.mp3" type="audio/mp3">
+                            </audio>
+                        </div>   
+                    </div>
+                    <div class="comment-section">
+                            <button class="comment-btn" onclick="toggleComments(this)">Comment</button>
+                            <div class="comments" style="display:none;">
+                                <input type="text" class="comment-input" placeholder="Add a comment...">
+                                <button class="submit-comment" onclick="addComment(this)">Submit</button>
+                                <ul class="comment-list"></ul>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="music-item" data-genre="Others">
+                <img class="music-thumbnail" src="GatVox_-_Don't stop believing.jpg" alt="Album art for Far From Love"/>
+                <div class="music-details">
+                    <h3>GatVox</h3>
+                    <p>Don't Stop Believing</p>
+                    <span class="song_genre">Others</span>
+                    <div class="button-group">
+                        
+                        <button class="add-to-playlist" onclick="addToPlaylist('musicId')"
+                            aria-label="Add to Playlist"><i class="bi bi-plus-circle"></i> Playlist</button>
+                        <button class="like-button" onclick="likeSong(this)('musicId')" aria-label="Like this song"><i class="bi bi-heart"></i></button><button class="like-button">0</button>
+                        <button class="tip-button" onclick="tipGary('musicId')" aria-label="Tip the artist"><i class="bi bi-coin"></i> (0)</button>
+                    </div>
+                     <div class="audio-container">
+                        <div class="music-controls">
+                            <button class="back control-btn">
+                                <i class="bi bi-skip-backward-fill"></i>
+                            </button>
+
+                            <img class="icon" src="play.png" width="40"> </img>
+
+                            <button class="forward control-btn">
+                                <i class="bi bi-skip-forward-fill"></i>
+                            </button>
+                            <audio class="mySong">
+                                <source src="Don't stop believing .mp3" type="audio/mp3">
+                            </audio>
+                        </div>   
+                    </div>
+                    <div class="comment-section">
+                            <button class="comment-btn" onclick="toggleComments(this)">Comment</button>
+                            <div class="comments" style="display:none;">
+                                <input type="text" class="comment-input" placeholder="Add a comment...">
+                                <button class="submit-comment" onclick="addComment(this)">Submit</button>
+                                <ul class="comment-list"></ul>
+                            </div>
+                    </div>
+                </div>
+
+           </div>
+            <!-- Music items will be dynamically loaded here via JavaScript -->
+        </div>
+    </div>
+</div>
+    <br>
+
+
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item" aria-label="Home">
+            <i class="bi bi-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="playlists.html" class="nav-item" aria-label="Playlists">
+            <i class="bi bi-music-player"></i>
+            <span>Playlists</span>
+        </a>
+        <a href="Upload Song.html" class="nav-item" aria-label="Upload">
+            <i class="bi bi-plus-circle"></i>
+            <span>Upload</span>
+        </a>
+        <a href="music.html" class="nav-item" aria-label="Music">
+            <i class="bi bi-music-note-beamed"></i>
+            <span>Music</span>
+        </a>
+        <a href="trending.html" class="nav-item" aria-label="Trending">
+            <i class="bi bi-fire"></i>
+            <span>Trending</span>
+        </a>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_ACTUAL_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        // Authentication State Listener
+     //    auth.onAuthStateChanged(user => {
+      //       if (user) {
+        //         document.getElementById('profile-picture').src = user.photoURL || 'unknown.jpg';
+        //         document.getElementById('username').textContent = user.displayName || 'Unknown';
+        //         loadMusic(); // Load music once user is authenticated
+        //     } else {
+        //         window.location.href = 'login.html'; // Redirect to login if not authenticated
+       //      }
+      //   });
+
+        // Offline/Online Event Listeners
+       //  window.addEventListener('offline', () => {
+       //      document.getElementById('offline-message').style.display = 'flex';
+            // Disable interactive buttons
+        //     disableInteractiveElements(true);
+       //      showNotification('You are offline. Some features are disabled.', 'error');
+      //   });
+
+      //   window.addEventListener('online', () => {
+      //       document.getElementById('offline-message').style.display = 'none';
+            // Re-enable interactive buttons
+       //      disableInteractiveElements(false);
+       //      showNotification('You are back online.', 'success');
+      //   });
+
+        // Disable or Enable Interactive Elements Based on Connection
+        function disableInteractiveElements(disable) {
+            const buttons = document.querySelectorAll('button, .genre-item');
+            buttons.forEach(button => {
+                button.disabled = disable;
+                button.style.opacity = disable ? '0.5' : '1';
+                if (disable) {
+                    button.setAttribute('aria-disabled', 'true');
+                } else {
+                    button.removeAttribute('aria-disabled');
+                }
+            });
+        }
+
+        // Navigation Back Function (Optional)
+        function goBack() {
+            window.history.back();
+        }
+
+
+        // Search Music Function
+        function searchMusic() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const musicItems = document.querySelectorAll('.music-item');
+
+            musicItems.forEach(item => {
+                const title = item.querySelector('h3').textContent.toLowerCase();
+                const artist = item.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(searchQuery) || artist.includes(searchQuery)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Filter by Genre Function
+        function filterByGenre(genre) {
+            const musicItems = document.querySelectorAll('.music-item');
+            musicItems.forEach(item => {
+                const itemGenre = item.getAttribute('data-genre') || 'All';
+                if (genre === 'All' || itemGenre === genre) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Show Notification Function
+        function showNotification(message, type) {
+            const notificationContainer = document.querySelector('.notification-container');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            notification.innerHTML = `<i class="fas ${iconClass}"></i> ${message}`;
+            notificationContainer.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+
+
+// Create Music Element Helper Function (Add Volume and Duration UI)
+function createMusicElement(musicId, musicItem) {
+    const musicElement = document.createElement('div');
+    musicElement.className = 'music-item';
+    musicElement.setAttribute('data-genre', musicItem.genre || 'All');
+;
+
+    musicElement.innerHTML = `
+        <img class="music-thumbnail" src="${musicItem.thumbnailUrl}" alt="Album art for ${musicItem.title}" />
+        <div class="music-details">
+            <h3>${musicItem.title}</h3>
+            <p>Artist: ${musicItem.artist}</p>
+            <div class="button-group">
+                <button class="add-to-playlist" onclick="addToPlaylist('${musicId}')" aria-label="Add to Playlist">Add to Playlist</button>
+                <button class="like-button" onclick="likeMusic('${musicId}')" aria-label="Like this song">Like (${musicItem.likes || 0})</button>
+                <button class="tip-button" onclick="tipGary('${musicId}')" aria-label="Tip the artist">Tip ($${musicItem.tips || 0})</button>
+            </div>
+            <div class="playback-controls">
+                <button onclick="previousTrack('${musicId}')" aria-label="Previous Track"><i class="bi bi-skip-start-fill"></i></button>
+                <button onclick="togglePlayPause('${musicId}')" aria-label="Play/Pause"><i class="bi bi-play-fill" id="play-icon-${musicId}"></i></button>
+                <button onclick="nextTrack('${musicId}')" aria-label="Next Track"><i class="bi bi-skip-end-fill"></i></button>
+                <div class="progress-container">
+                    <div class="progress-bar" onclick="seekTrack(event, '${musicId}')" aria-label="Seek">
+                        <div class="progress" id="progress-${musicId}"></div>
+                    </div>
+                    <span class="time" id="current-time-${musicId}">0:00</span> / <span class="time" id="duration-${musicId}">0:00</span>
+                </div>
+                <input type="range" min="0" max="1" step="0.01" onchange="setVolume('${musicId}', this.value)" aria-label="Volume Control">
+            </div>
+        </div>
+        <audio id="audio-${musicId}" src="${musicItem.audioUrl}" preload="metadata"></audio>
+    `;
+
+    // Event Listeners for Audio Metadata and Time Updates
+    const audio = musicElement.querySelector(`#audio-${musicId}`);
+    const progressBar = musicElement.querySelector(`#progress-${musicId}`);
+    const currentTimeEl = musicElement.querySelector(`#current-time-${musicId}`);
+    const durationEl = musicElement.querySelector(`#duration-${musicId}`);
+
+    // Update duration once metadata is loaded
+    audio.addEventListener('loadedmetadata', () => {
+        const duration = formatTime(audio.duration);
+        durationEl.textContent = duration;
+    });
+
+    // Update progress as the audio plays
+    audio.addEventListener('timeupdate', () => {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+    });
+
+    // Reset play button when audio ends
+    audio.addEventListener('ended', () => {
+        togglePlayPause(musicId, false);
+    });
+
+    return musicElement;
+}
+
+
+
+        // Optional: Listen for real-time updates
+        // Uncomment the following lines if you want real-time updates
+        /*
+        function listenForMusicUpdates() {
+            const musicListContainer = document.getElementById('music-list');
+            database.ref('music').on('value', snapshot => {
+                const musicData = snapshot.val();
+                musicListContainer.innerHTML = ''; // Clear existing content
+                const fragment = document.createDocumentFragment();
+
+                for (const musicId in musicData) {
+                    const musicItem = musicData[musicId];
+                    const musicElement = createMusicElement(musicId, musicItem);
+                    fragment.appendChild(musicElement);
+                }
+
+                musicListContainer.appendChild(fragment);
+            }, error => {
+                console.error('Error listening for music updates:', error);
+                showNotification('Error loading music updates.', 'error');
+            });
+        }
+
+        // Call the function to start listening
+        listenForMusicUpdates();
+        */
+    </script>
+
+
+
+    <script>
+        // Select all audio elements and containers
+            var allAudio = document.querySelectorAll('audio');
+
+            document.querySelectorAll('.audio-container').forEach(container => {
+                var mySong = container.querySelector('audio');    // Get the specific audio
+                var icon = container.querySelector('.icon');      // Get the play/pause icon
+                var forwardBtn = container.querySelector('.forward'); // Forward button
+                var backBtn = container.querySelector('.back');   // Backward button
+                
+                // Play/Pause functionality for the specific audio
+                icon.onclick = function() {
+                    // Pause all other audios
+                    allAudio.forEach(audio => {
+                        if (audio !== mySong) {
+                            audio.pause();
+                            audio.currentTime = 0; // Optionally reset the time
+                            // Change icon of other audios to 'play'
+                            var otherIcon = audio.parentNode.querySelector('.icon');
+                            otherIcon.src = "play.png";
+                        }
+                    });
+
+                    // Toggle play/pause for the current audio
+                    if (mySong.paused) {
+                        mySong.play();
+                        icon.src = "pause.png";
+                    } else {
+                        mySong.pause();
+                        icon.src = "play.png";
+                    }
+                };
+
+                // Forward 5 seconds
+                forwardBtn.onclick = function() {
+                    mySong.currentTime += 5; // Adjust time as needed
+                };
+
+                // Rewind 5 seconds
+                backBtn.onclick = function() {
+                    mySong.currentTime -= 5; // Adjust time as needed
+                };
+            });
+
+
+            // Function to like a song
+                function likeSong(button) {
+                    const likeCountElement = button.nextElementSibling;
+                    let likeCount = parseInt(likeCountElement.textContent) || 0;
+                    likeCount++;
+                    likeCountElement.textContent = likeCount;
+                    
+                    const username = "user123"; // Replace this with the actual username logic
+                    saveLike(username, button.closest('.box').querySelector('h5').textContent);
+                }
+
+                // Function to save the like to a backend (placeholder function)
+                function saveLike(username, songTitle) {
+                    console.log(`Saved like from ${username} for song: ${songTitle}`);
+                    // Here, you would typically make an AJAX request to save the like on the server
+                }
+
+
+
+// Function to add a comment
+function addComment(button) {
+    const commentInput = button.previousElementSibling;
+    const commentText = commentInput.value;
+    if (!commentText) return;
+
+    const commentList = button.closest('.comments').querySelector('.comment-list');
+    const username = "user123"; // Replace with actual username logic
+    const commentItem = document.createElement('li');
+    commentItem.classList.add('comment-item');
+
+    // Sample avatar, replace with actual user avatar logic
+    const avatar = '<img src="https://via.placeholder.com/32" alt="user avatar">';
+    
+    commentItem.innerHTML = `
+        ${avatar} <span>${username}</span>: ${commentText}
+    `;
+    commentList.appendChild(commentItem);
+
+    // Save the comment (implement backend logic)
+    saveComment(username, button.closest('.box').querySelector('h5').textContent, commentText);
+
+    // Clear the input
+    commentInput.value = '';
+}
+
+// Function to save the comment to the backend (placeholder function)
+function saveComment(username, songTitle, commentText) {
+    console.log(`Saved comment from ${username} on song: ${songTitle} - Comment: ${commentText}`);
+    // You would typically make an AJAX request to save the comment on the server
+}
+
+    </script>
+</body>
+
+</html>

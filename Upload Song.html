@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Music</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Embedded CSS -->
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f0333, #1a005e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            color: #fff;
+            margin-bottom: 20px;
+
+        }
+   
+
+        h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff33a6;
+        }
+
+        .upload-form {
+            width: 100%;
+            max-width: 400px;
+            padding: 5rem;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            margin: 10px, 10px, 10px;
+        }
+
+        .upload-form:hover {
+            transform: scale(1.02);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        select{
+   
+            color: #ff33a6;
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+
+
+
+        }
+
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 15px #ff006a, 0 0 25px #ff33a6;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff0077, #9c1aff);
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        .back-arrow {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            padding: 10px;
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            border-radius: 5px;
+            background-color: linear-gradient(45deg, #ff33a6, #d021ff);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .back-arrow:hover {
+            background-color: #e0e0e0;
+            color: #1a005e;
+            cursor: pointer;
+        }
+
+        .file-upload {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        small {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .checkbox-label {
+            font-size: 0.95rem;
+            color: #ddd;
+            display: inline-block;
+            margin: 12px 0;
+        }
+
+        .checkbox-label input {
+            margin-right: 8px;
+        }
+
+        /* Progress Indicator */
+        .progress {
+            width: 100%;
+            height: 6px;
+            background-color: #444;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff33a6, #9c1aff);
+            box-shadow: 0 0 10px #ff33a6, 0 0 15px #9c1aff;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #bbb;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Notification History */
+        .notification-history {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 90%;
+            z-index: 999;
+        }
+
+        /* Notification Style */
+        .notification {
+            padding: 15px;
+            background-color: #333;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin: 5px 0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .notification.success {
+            background-color: #27ae60;
+        }
+
+        .notification.error {
+            background-color: #e74c3c;
+        }
+
+        .notification.info {
+            background-color: #2196F3;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            h3 {
+                font-size: 1.8rem;
+            }
+
+            .upload-form {
+                padding: 1.5rem;
+                
+        
+            }
+
+            input, select, button {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .back-arrow {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
+
+        /* Focus Styles for Accessibility */
+        button:focus,
+        a:focus,
+        input:focus,
+        select:focus {
+            outline: 2px solid #25D366;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+<br class="all">
+    <!-- Upload Form -->
+    <div class="upload-form" id="upload-form">
+        <a href="javascript:void(0)" class="back-arrow" onclick="goBack()">←</a>
+        <h3>Upload Your Music</h3>
+
+        <form id="music-upload-form" autocomplete="off">
+            <label for="music-title">Song Title</label>
+            <input type="text" id="music-title" placeholder="Enter the title of your song" required />
+
+            <label for="music-artist">Artist Name</label>
+            <input type="text" id="music-artist" placeholder="Enter the artist name" required />
+
+            <div class="file-upload">
+                <label for="music-file">Upload MP3 File</label>
+                <input type="file" id="music-file" accept=".mp3,audio/mpeg" required />
+                <small>Max size: 5 MB. Only MP3 files are allowed.</small>
+            </div>
+
+            <div class="file-upload">
+                <label for="thumbnail-file">Upload Thumbnail Image</label>
+                <input type="file" id="thumbnail-file" accept=".png, .jpg, .jpeg" required />
+                <small>Max size: 2 MB. Only PNG/JPG files are allowed.</small>
+            </div>
+
+            <label for="music-genre">Select Genre</label>
+            <select id="music-genre" required>
+                <option value="" disabled selected>Select a genre</option>
+                <option value="Pop">Pop</option>
+                <option value="Rock">Rock</option>
+                <option value="Hip Hop">Hip Hop</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Classical">Classical</option>
+                <option value="Electronic">Electronic</option>
+                <option value="Gospel">Gospel</option>
+            </select>
+
+            <label for="copyright-agreement" class="checkbox-label">
+                <input type="checkbox" id="copyright-agreement" required /> I declare that this song is original and I own the rights.
+            </label>
+
+            <button type="submit" class="upload-button" id="upload-button" disabled>Upload Music</button>
+
+            <div class="progress" id="progress-bar">
+                <div class="progress-bar" id="progress-bar-fill"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Uploading...</div>
+        </form>
+    </div>
+</div>
+
+    <!-- Notification History Container -->
+    <div id="notification-history" class="notification-history" aria-live="polite" aria-atomic="true"></div>
+
+   <script>
+        // Firebase Initialization
+        fetch("/api/firebase-config")
+            .then(response => response.json())
+            .then(config => {
+                firebase.initializeApp(config);
+                const db = firebase.firestore();
+            }).catch(error => {
+                console.error("Failed to load Firebase configuration:", error);
+            });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if the user is online
+            if (!navigator.onLine) {
+                document.getElementById('offline-message').style.display = "block";
+                return;
+            }
+
+            // Retrieve user ID from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('user_id');
+
+            if (!userId) {
+                alert("No user ID found. Please launch the app from Telegram.");
+                return;
+            }
+
+            // Validate user ID on the server side (via Firebase)
+            firebase.auth().onAuthStateChanged(user => {
+                if (user && user.uid === userId) {
+                    // User is logged in and valid
+                    fetchUserProfile(userId);
+                    checkMiningStatus(userId);
+                } else {
+                    alert("Unauthorized access. Please log in.");
+                    window.location.href = "/login.html";
+                }
+            });
+
+        // Authentication State Listener
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // Set user data if needed
+                // Example: document.getElementById('profile-picture').src = user.photoURL || 'unknown.jpg';
+                // document.getElementById('username').textContent = user.displayName || 'Unknown';
+            } else {
+                // Redirect to login if not authenticated
+               //  window.location.href = 'login.html';
+            }
+        });
+
+        // Back Arrow Event Listener
+        document.getElementById('back-arrow').addEventListener('click', function(event) {
+            event.preventDefault();
+            window.history.back();
+        });
+
+        // Enable upload button only when checkbox is selected
+        document.getElementById('copyright-agreement').addEventListener('change', function() {
+            const uploadButton = document.getElementById('upload-button');
+            uploadButton.disabled = !this.checked;
+        });
+
+        // Form submission for uploading music
+        document.getElementById('music-upload-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            uploadMusic();
+        });
+
+        // Function to sanitize user input to prevent XSS
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        // Function to display notifications
+        function displayNotification(message, type) {
+            const notificationContainer = document.getElementById('notification-history');
+            const notification = document.createElement("div");
+            notification.classList.add("notification", type);
+            let iconClass;
+            switch (type) {
+                case 'success':
+                    iconClass = 'fa-check-circle';
+                    break;
+                case 'error':
+                    iconClass = 'fa-exclamation-circle';
+                    break;
+                case 'info':
+                    iconClass = 'fa-info-circle';
+                    break;
+                default:
+                    iconClass = 'fa-info-circle';
+            }
+            notification.innerHTML = `<i class="fas ${iconClass}"></i> ${sanitizeHTML(message)}`;
+            notificationContainer.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Function to handle music upload
+        function uploadMusic() {
+            // Get form elements
+            const title = document.getElementById('music-title').value.trim();
+            const artist = document.getElementById('music-artist').value.trim();
+            const genre = document.getElementById('music-genre').value;
+            const musicFileInput = document.getElementById('music-file');
+            const thumbnailFileInput = document.getElementById('thumbnail-file');
+
+            // Validate files
+            const musicFile = musicFileInput.files[0];
+            const thumbnailFile = thumbnailFileInput.files[0];
+
+            if (!musicFile || !thumbnailFile) {
+                displayNotification("Please select both MP3 and thumbnail image files.", "error");
+                return;
+            }
+
+            // Client-side file size validation
+            if (musicFile.size > 5 * 1024 * 1024) { // 5 MB
+                displayNotification("MP3 file size exceeds 5MB.", "error");
+                musicFileInput.value = '';
+                return;
+            }
+
+            if (thumbnailFile.size > 2 * 1024 * 1024) { // 2 MB
+                displayNotification("Thumbnail image size exceeds 2MB.", "error");
+                thumbnailFileInput.value = '';
+                return;
+            }
+
+            // Disable the upload button to prevent multiple uploads
+            const uploadButton = document.getElementById('upload-button');
+            uploadButton.disabled = true;
+
+            // Show progress bar and text
+            const progressBar = document.getElementById('progress-bar');
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            const progressText = document.getElementById('progress-text');
+
+            progressBar.style.display = 'block';
+            progressText.style.display = 'block';
+            progressBarFill.style.width = '0%';
+            progressText.innerText = 'Uploading...';
+
+            // Define storage paths
+            const musicStorageRef = storage.ref(`music/${Date.now()}_${sanitizeFilename(musicFile.name)}`);
+            const thumbnailStorageRef = storage.ref(`thumbnails/${Date.now()}_${sanitizeFilename(thumbnailFile.name)}`);
+
+            // Upload music file
+            const musicUploadTask = musicStorageRef.put(musicFile);
+
+            musicUploadTask.on('state_changed', 
+                (snapshot) => {
+                    // Calculate progress percentage
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    progressBarFill.style.width = `${progress}%`;
+                }, 
+                (error) => {
+                    console.error('Error uploading music:', error);
+                    displayNotification('Error uploading music file.', 'error');
+                    uploadButton.disabled = false;
+                    progressBar.style.display = 'none';
+                    progressText.style.display = 'none';
+                }, 
+                () => {
+                    // Music upload completed successfully
+                    musicUploadTask.snapshot.ref.getDownloadURL().then((musicURL) => {
+                        // Now upload thumbnail
+                        const thumbnailUploadTask = thumbnailStorageRef.put(thumbnailFile);
+
+                        thumbnailUploadTask.on('state_changed', 
+                            (snapshot) => {
+                                // Update progress text
+                                progressText.innerText = 'Uploading thumbnail...';
+                            }, 
+                            (error) => {
+                                console.error('Error uploading thumbnail:', error);
+                                displayNotification('Error uploading thumbnail image.', 'error');
+                                uploadButton.disabled = false;
+                                progressBar.style.display = 'none';
+                                progressText.style.display = 'none';
+                            }, 
+                            () => {
+                                // Thumbnail upload completed successfully
+                                thumbnailUploadTask.snapshot.ref.getDownloadURL().then((thumbnailURL) => {
+                                    // Save metadata to Firebase Realtime Database
+                                    const musicData = {
+                                        title: sanitizeHTML(title),
+                                        artist: sanitizeHTML(artist),
+                                        genre: sanitizeHTML(genre),
+                                        musicURL: sanitizeURL(musicURL),
+                                        thumbnailURL: sanitizeURL(thumbnailURL),
+                                        uploadedBy: auth.currentUser.uid,
+                                        uploadedAt: firebase.database.ServerValue.TIMESTAMP,
+                                        likes: 0,
+                                        tips: 0
+                                    };
+
+                                    const newMusicRef = database.ref('music').push();
+                                    newMusicRef.set(musicData).then(() => {
+                                        displayNotification("Your song has been submitted!", "success");
+                                        // Reset form
+                                        document.getElementById('music-upload-form').reset();
+                                        // Hide progress bar and text
+                                        progressBar.style.display = 'none';
+                                        progressText.style.display = 'none';
+                                    }).catch((error) => {
+                                        console.error('Error saving music data:', error);
+                                        displayNotification('Error saving music data.', 'error');
+                                    }).finally(() => {
+                                        uploadButton.disabled = false;
+                                    });
+                                }).catch((error) => {
+                                    console.error('Error getting thumbnail URL:', error);
+                                    displayNotification('Error processing thumbnail image.', 'error');
+                                    uploadButton.disabled = false;
+                                    progressBar.style.display = 'none';
+                                    progressText.style.display = 'none';
+                                });
+                            }
+                        );
+                    }).catch((error) => {
+                        console.error('Error getting music URL:', error);
+                        displayNotification('Error processing music file.', 'error');
+                        uploadButton.disabled = false;
+                        progressBar.style.display = 'none';
+                        progressText.style.display = 'none';
+                    });
+                }
+            );
+        }
+
+        // Function to sanitize filenames
+        function sanitizeFilename(filename) {
+            return filename.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        }
+    </script>
+
+
+</body>
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+</html>

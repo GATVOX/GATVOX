@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposals - GATVOX</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+    <div id="offline-message" style="display:none;">
+        <div class="offline-container">
+            <h2>You're Offline</h2>
+            <p>Please check your internet connection or reload the page.</p>
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <a href="dashboard.html" style="color: white; text-decoration:none;"><h1>GATVOX</h1></a>
+            <a href="wallet.html" class="nav-item">
+                <i class="fas fa-wallet" style="color: white; font-size: 1.5rem;"></i>
+            </a>
+            <div class="profile-info">
+                <a href="profile.html"><img id="profile-picture" src="unknown.jpg" alt="Profile Picture" class="profile-picture" /></a>
+                <a href="profile.html" style="text-decoration: none; color: white;">
+                    <span id="username" class="username">Unknown</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="dashboard.html" class="nav-item">
+                <i class="bi bi-music-player"></i>
+                <span>Playlists</span>
+            </a>
+            <a href="Upload Song.html" class="nav-item">
+            <i class="bi bi-plus-circle"></i>
+            <span>Upload</span>
+        </a>
+            <a href="music.html" class="nav-item">
+                <i class="bi bi-music-note-beamed"></i>
+                <span>Music</span>
+            </a>
+            <a href="trending.html" class="nav-item">
+                <i class="bi bi-fire"></i>
+                <span>Trending</span>
+            </a>
+        </div>
+
+        <div class="content">
+            <aside class="sidebar">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="social-task.html"><i class="fas fa-share-alt"></i> Social Task</a></li>
+                    <li><a href="referral.html"><i class="fas fa-user-plus"></i> Referral</a></li>
+                    <li><a href="About.html"><i class="bi bi-info-circle"></i> About Us</a></li>
+                    <li><a href="news.html"><i class="bi bi-newspaper"></i> News</a></li>
+                    <li><a href="dao.html"><i class="bi bi-bank"></i> DAO</a></li>
+                    <li><a href="PROPOSALS.html"><i class="bi bi-card-checklist"></i> PROPOSALS</a></li>
+                </ul>
+             <div class="social-media">
+                    <h3>Follow Us</h3>
+                    <!-- Twitter Link -->
+                    <a href="https://twitter.com/Gatvox" class="social-icon" aria-label="Twitter" onclick="openTwitter(event)">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <!-- Instagram Link -->
+                    <a href="https://www.instagram.com/Gatvox" class="social-icon" aria-label="Instagram" onclick="openInstagram(event)">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <!-- YouTube Link -->
+                    <a href="https://youtube.com/@Gatvox?si=H-0Oq5NRtD9mMd-C" class="social-icon" aria-label="YouTube" onclick="openYouTube(event)">
+                        <i class="fab fa-youtube" style="color: red; font-size: 30px;"></i>
+                    </a>
+                </div>
+            </aside>
+
+            <main>
+                <h2>PROPOSALS</h2>
+                <div id="balance">
+                   
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    <script type="script.js"></script>
+
+
+   
+    
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral - GATVOX</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* Notification Styles */
+        .notification {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            color: white;
+            padding: 8px 12px; /* Smaller padding for a more compact notification */
+            border-radius: 5px; /* Rounded corners */
+            transition: opacity 0.3s ease;
+            font-size: 14px; /* Smaller font size */
+            white-space: nowrap; /* Prevent text wrapping */
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+        .notification.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="offline-message" style="display:none;">
+<div class="offline-container">
+        <h2>You're Offline</h2>
+        <p>Please check your internet connection, or Reload the page.</p>
+        <i class="fas fa-wifi-slash"></i>
+</div>
+</div>
+
+    <div class="container">
+        <header>
+            <a href="dashboard.html" style="color: white; text-decoration:none;"><h1>GATVOX</h1></a>
+<a href="wallet.html" class="nav-item"><i class="fas fa-wallet" style="color: white; font-size: 1.5rem;"></i>
+            <div class="profile-info">
+                <a href="profile.html"><img id="profile-picture" src="unknown.jpg" alt="Profile Picture" class="profile-picture" /></a>
+               <a href="profile.html" style="text-decoration: none; color: white;"> <span id="username" class="username">Unknown</span></a>
+            </div>
+        </header>
+
+        <div class="content">
+            <aside class="sidebar">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="social-task.html"><i class="fas fa-share-alt"></i> Social Task</a></li>
+                    <li><a href="referral.html"><i class="fas fa-user-plus"></i> Referral</a></li>
+                    <li><a href="About.html"><i class="bi bi-info-circle"></i> About Us</a></li>
+                    <li><a href="news.html"><i class="bi bi-newspaper"></i> News</a></li>
+                    <li><a href="dao.html"><i class="bi bi-bank"></i> DAO</a></li>
+                    <li><a href="PROPOSALS.html"><i class="bi bi-card-checklist"></i> PROPOSALS</a></li>
+                </ul>
+
+             <div class="social-media">
+                    <h3>Follow Us</h3>
+                    <!-- Twitter Link -->
+                    <a href="https://twitter.com/Gatvox" class="social-icon" aria-label="Twitter" onclick="openTwitter(event)">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <!-- Instagram Link -->
+                    <a href="https://www.instagram.com/Gatvox" class="social-icon" aria-label="Instagram" onclick="openInstagram(event)">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <!-- YouTube Link -->
+                    <a href="https://youtube.com/@Gatvox?si=H-0Oq5NRtD9mMd-C" class="social-icon" aria-label="YouTube" onclick="openYouTube(event)">
+                        <i class="fab fa-youtube" style="color: red; font-size: 30px;"></i>
+                    </a>
+                </div>
+            </aside>
+
+            <main>
+                <h2>Referral Program</h2>
+                <p>Invite your friends to join GATVOX and earn rewards! Share your unique referral link below:</p>
+                <div id="referral-link" style="background-color: #f8f8f8; padding: 15px; border-radius: 5px;">
+                    <strong>Your Referral Link:</strong>
+                    <input type="text" value="https://t.me/GatVox_bot" readonly id="referralInput" style="width: 80%; margin-left: 10px;">
+                    <button onclick="copyReferralLink()" class="btn" style="margin-left: 10px;">Copy Link</button>
+                </div>
+                <h3>How It Works</h3>
+                <ul>
+                    <li>For every friend who signs up using your link, you will earn 20 GVT!</li>
+                </ul>
+            </main>
+        </div>
+
+                <div class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="dashboard.html" class="nav-item">
+                <i class="bi bi-music-player"></i>
+                <span>Playlists</span>
+            </a>
+            <a href="Upload Song.html" class="nav-item">
+            <i class="bi bi-plus-circle"></i>
+            <span>Upload</span>
+        </a>
+            <a href="music.html" class="nav-item">
+                <i class="bi bi-music-note-beamed"></i>
+                <span>Music</span>
+            </a>
+            <a href="trending.html" class="nav-item">
+                <i class="bi bi-fire"></i>
+                <span>Trending</span>
+            </a>
+        </div>
+
+
+        <!-- Notification Element -->
+        <div id="notification" class="notification">Referral link copied to clipboard!</div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function copyReferralLink() {
+            const referralInput = document.getElementById("referralInput");
+            referralInput.select();
+            document.execCommand("copy");
+            
+            // Show notification
+            const notification = document.getElementById("notification");
+            notification.classList.add("show");
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove("show");
+            }, 3000);
+        }
+    </script>
+
+    <script>
+        // Firebase Initialization
+        fetch("/api/firebase-config")
+            .then(response => response.json())
+            .then(config => {
+                firebase.initializeApp(config);
+                const db = firebase.firestore();
+            }).catch(error => {
+                console.error("Failed to load Firebase configuration:", error);
+            });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if the user is online
+            if (!navigator.onLine) {
+                document.getElementById('offline-message').style.display = "block";
+                return;
+            }
+
+            // Retrieve user ID from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('user_id');
+
+            if (!userId) {
+                alert("No user ID found. Please launch the app from Telegram.");
+                return;
+            }
+
+            // Validate user ID on the server side (via Firebase)
+            firebase.auth().onAuthStateChanged(user => {
+                if (user && user.uid === userId) {
+                    // User is logged in and valid
+                    fetchUserProfile(userId);
+                    checkMiningStatus(userId);
+                } else {
+                    alert("Unauthorized access. Please log in.");
+                    window.location.href = "/login.html";
+                }
+            });
+        </script>
+
+
+</body>
+</html>

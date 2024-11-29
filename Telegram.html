@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News | Gary Stream</title>
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   
+
+    <style>
+        /* Add styles for bottom navigation */
+            .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: #2B2D42;
+            color: white;
+            padding: 15px 30px;
+            padding: 10px 0;
+        }
+
+        .nav-item {
+            text-align: center;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            
+        }
+
+        .nav-item i {
+            font-size: 24px;
+            display: block;
+            color: #25D366;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            display: block;
+            color: white;
+        }
+
+        .nav-item:hover {
+            color: #25D366;
+        }
+
+
+        /* Make the bottom nav responsive */
+        @media only screen and (max-width: 600px) {
+            .nav-item i {
+                font-size: 20px;
+            }
+
+            .nav-item span {
+                font-size: 10px;
+            }
+        }
+        
+   
+
+        .navbar a {
+            margin: 0 15px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .navbar a:hover {
+            color: #f4d03f;
+        }
+
+        .heading {
+            color: #444;
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .box-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #444;
+            margin-top: 1.5rem;
+
+        }
+
+        p {
+            margin: 0.5rem 0;
+            font-size: 2rem;
+            color: #666;
+        }
+
+        strong {
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .navbar a {
+                display: block;
+                margin: 10px 0;
+                font-size: 1rem;
+            }
+
+            .box-container {
+                padding: 1rem;
+            }
+
+            .heading {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="offline-message" style="display:none;">
+<div class="offline-container">
+        <h2>You're Offline</h2>
+        <p>Please check your internet connection, or Reload the page.</p>
+        <i class="fas fa-wifi-slash"></i>
+</div>
+</div>
+
+<!-- Header Section -->
+<header class="header">
+   <a href="javascript:void(0)" class="back-arrow" onclick="goBack()">←</a>
+    <a href="dashboard.html" class="index logo" style="color: #25D366;"><span>GA</span>RY<span> ST</span>REAM</a>
+    <div class="profile-info">
+        <a href="profile.html"><img id="profile-picture" src="unknown.jpg" alt="Profile Picture" class="profile-picture" /></a>
+    </div>
+
+</header>
+
+<br><br><br><br><br><br>
+
+<!-- Bottom Navigation Bar -->
+<div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+        <i class="bi bi-house"></i>
+        <span>Home</span>
+    </a>
+    <a href="videos.html" class="nav-item">
+        <i class="bi bi-camera-video"></i>
+        <span>Video</span>
+    </a>
+    <a href="music.html" class="nav-item">
+        <i class="bi bi-music-note-beamed"></i>
+        <span>Music</span>
+    </a>
+        <a href="trending.html" class="nav-item">
+            <i class="bi bi-fire"></i>
+            <span>Trending</span>
+        </a>
+</div>
+
+<!-- Blog Section -->
+<section class="blog" id="blog">
+    <h1 class="heading">Telegram Mini App Store Launches with New Features</h1>
+    
+    <div class="box-container">
+        <article>
+            <p><strong>Telegram</strong> continues to innovate its platform with the launch of the official Mini App Store, a dedicated space where users can easily discover and access Mini Apps within Telegram. This new feature, part of a broader effort to enhance the in-app experience, allows users to explore a range of popular apps, services, and games, all without leaving Telegram.</p>
+
+            <p>The latest update introduces an <strong>'Apps'</strong> tab, designed specifically for browsing Mini Apps. Users can preview apps through video demonstrations, access key services, and discover new tools directly through Telegram. This integration of apps within the messaging platform aligns with Telegram's vision of becoming more than just a communication tool, transforming it into an expansive ecosystem.</p>
+
+            <h2>Enhanced Features for Developers</h2>
+            <p>Developers now have more opportunities to engage users with the ability to create custom content for Telegram Stories. This allows Mini Apps to showcase specific features and drive user interaction. For instance, new Mini Apps can automatically generate stories that share updates, promotions, or personalized messages with users.</p>
+
+            <p>The Mini App Store also supports app developers by providing enhanced tools for visibility. These tools include the option to upload screenshots, video demos, and detailed descriptions, giving users a clearer idea of what to expect before launching an app. This functionality is key for developers who want to stand out in a competitive environment.</p>
+
+            <h2>Blockchain and Web3 Integration</h2>
+            <p>One of the most exciting features in this update is the integration of <strong>Web3</strong> technology and decentralized applications (dApps) via the <strong>TON blockchain</strong>. This upgrade allows users to interact with decentralized websites and services through the in-app browser. The addition of Web3 support positions Telegram as a forward-thinking platform in the realm of blockchain technologies, providing new opportunities for developers to create apps that leverage decentralized infrastructures.</p>
+
+            <p>For example, users can now access Web3 services, perform blockchain transactions, and interact with dApps without needing third-party applications. This advancement will likely lead to increased adoption of TON-based projects and the growth of Telegram's blockchain ecosystem.</p>
+
+            <h2>Expanding the Telegram Ecosystem</h2>
+            <p>As Telegram continues to grow its ecosystem, the Mini App Store provides a seamless, centralized hub for users to access various services and apps without switching between multiple platforms. From entertainment to productivity, Telegram aims to make all essential tools available directly within its app, improving convenience for its global user base.</p>
+
+            <p>These new features, combined with the improved app visibility for developers and enhanced blockchain support, mark a major step forward in Telegram’s mission to provide a more diverse and user-friendly experience. The company continues to attract developers looking to leverage its vast user base, offering them cutting-edge tools and integration options.</p>
+        </article>
+    </div>
+</section>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Gary Stream | All Rights Reserved</p>
+</footer>
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="script.js"></script>
+
+<script>
+function toggleDropdown() {
+  var dropdown = document.getElementById('dropdownMenu');
+  // Toggle the display between block and none
+  dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdown = document.getElementById('dropdownMenu');
+    if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>

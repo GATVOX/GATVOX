@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Back Arrow Button */
+.back-arrow {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000;
+    padding: 10px;
+    border: 2px solid green;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.back-arrow:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+/* Search Results Styles */
+#searchResults {
+    margin-top: 20px;
+}
+
+.result-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+    </style>
+</head>
+<body>
+    <div id="offline-message" style="display:none;">
+        <div class="offline-container">
+            <h2>You're Offline</h2>
+            <p>Please check your internet connection, or Reload the page.</p>
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+    </div>
+
+    <header>
+        <a href="javascript:void(0)" class="back-arrow" onclick="goBack()">← Back</a>
+        <h1>Search Results</h1>
+    </header>
+
+    <main>
+        <h2>Results for: <span id="searchQuery"></span></h2>
+        <div id="searchResults">
+            <!-- Dynamically load search results here -->
+        </div>
+        <div id="noResults" style="display: none;">
+            <p>No results found for your query.</p>
+        </div>
+    </main>
+
+    <script>
+        // Get the search query from the URL and display it
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('query');
+        document.getElementById('searchQuery').textContent = query;
+
+        // Example: Simulate search results (replace with actual fetch)
+        const results = []; // Fetch or generate your results based on the query
+        const searchResultsContainer = document.getElementById('searchResults');
+        
+        if (results.length === 0) {
+            document.getElementById('noResults').style.display = 'block';
+        } else {
+            results.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.textContent = result; // Change this to actual result data
+                searchResultsContainer.appendChild(resultItem);
+            });
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

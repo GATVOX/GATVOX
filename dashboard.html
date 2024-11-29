@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GATVOX</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* Add styles for buttons and other elements */
+
+        .btn:disabled {
+            background-color: #555; /* Greyed-out button */
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            color: green;
+            margin-top: 10px;
+        }
+
+        /* Loading spinner */
+        .loader {
+            border: 5px solid #f3f3f3; /* Light grey */
+            border-top: 5px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+
+       
+    </style>
+</head>
+
+<body>
+    <div id="offline-message" style="display:none;">
+        <div class="offline-container">
+            <h2>You're Offline</h2>
+            <p>Please check your internet connection or reload the page.</p>
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <a href="dashboard.html" style="color: white; text-decoration:none;"><h1>GATVOX</h1></a>
+            <a href="wallet.html" class="nav-item">
+                <i class="fas fa-wallet" style="color: white; font-size: 1.5rem;"></i>
+            </a>
+            <div class="profile-info">
+                <a href="profile.html"><img id="profile-picture" src="unknown.jpg" alt="Profile Picture" class="profile-picture" /></a>
+                <a href="profile.html" style="text-decoration: none; color: white;">
+                    <span id="username" class="username">Unknown</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="playlists.html" class="nav-item">
+                <i class="bi bi-music-player"></i>
+                <span>Playlists</span>
+            </a>
+            <a href="Upload Song.html" class="nav-item">
+            <i class="bi bi-plus-circle"></i>
+            <span>Upload</span>
+        </a>
+            <a href="music.html" class="nav-item">
+                <i class="bi bi-music-note-beamed"></i>
+                <span>Music</span>
+            </a>
+            <a href="trending.html" class="nav-item">
+                <i class="bi bi-fire"></i>
+                <span>Trending</span>
+            </a>
+        </div>
+
+        <div class="content">
+            <aside class="sidebar">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="social-task.html"><i class="fas fa-share-alt"></i> Social Task</a></li>
+                    <li><a href="referral.html"><i class="fas fa-user-plus"></i> Referral</a></li>
+                    <li><a href="About.html"><i class="bi bi-info-circle"></i> About Us</a></li>
+                    <li><a href="news.html"><i class="bi bi-newspaper"></i> News</a></li>
+                    <li><a href="dao.html"><i class="bi bi-bank"></i> DAO</a></li>
+                    <li><a href="PROPOSALS.html"><i class="bi bi-card-checklist"></i> PROPOSALS</a></li>
+                </ul>
+
+             <div class="social-media">
+                    <h3>Follow Us</h3>
+                    <!-- Twitter Link -->
+                    <a href="https://twitter.com/Gatvox" class="social-icon" aria-label="Twitter" onclick="openTwitter(event)">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <!-- Instagram Link -->
+                    <a href="https://www.instagram.com/Gatvox" class="social-icon" aria-label="Instagram" onclick="openInstagram(event)">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <!-- YouTube Link -->
+                    <a href="https://youtube.com/@Gatvox?si=H-0Oq5NRtD9mMd-C" class="social-icon" aria-label="YouTube" onclick="openYouTube(event)">
+                        <i class="fab fa-youtube" style="color: red; font-size: 30px;"></i>
+                    </a>
+                </div>
+            </aside>
+
+            <main>
+                <h1>Balance: <span>0:00</span></h1>
+                <h2>Mining</h2>
+                <button id="startMining" class="btn">Start Mining</button>
+                <div class="loader" id="loader"></div>
+                <p id="miningStatus" class="success-message"></p>
+                <p id="errorStatus" class="error-message"></p>
+                <div id="countdown" style="display:none;">
+                    <h3>You can mine again in <span id="timeLeft"></span> seconds.</h3>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Initialization
+        fetch("/api/firebase-config")
+            .then(response => response.json())
+            .then(config => {
+                firebase.initializeApp(config);
+                const db = firebase.firestore();
+            }).catch(error => {
+                console.error("Failed to load Firebase configuration:", error);
+            });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if the user is online
+            if (!navigator.onLine) {
+                document.getElementById('offline-message').style.display = "block";
+                return;
+            }
+
+            // Retrieve user ID from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('user_id');
+
+            if (!userId) {
+                
+            }
+
+            // Validate user ID on the server side (via Firebase)
+            firebase.auth().onAuthStateChanged(user => {
+                if (user && user.uid === userId) {
+                    // User is logged in and valid
+                    fetchUserProfile(userId);
+                    checkMiningStatus(userId);
+                } else {
+                    alert("Unauthorized access. Please log in.");
+                    window.location.href = "/login.html";
+                }
+            });
+
+            // Event listener for mining
+            document.getElementById('startMining').addEventListener('click', () => {
+                startMining(userId);
+            });
+
+            // Event listeners for social media links
+            document.querySelectorAll('.social-icon').forEach(icon => {
+                icon.addEventListener('click', event => {
+                    event.preventDefault();
+                    openSocialMediaLink(event.target.closest('a').href);
+                });
+            });
+        });
+
+        // Function to fetch the user profile from Firestore
+        function fetchUserProfile(userId) {
+            // Fetch the user profile
+            const userProfileRef = firebase.firestore().collection('users').doc(userId);
+            userProfileRef.get().then(doc => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    document.getElementById('username').textContent = userData.username;
+                    document.getElementById('profile-picture').src = userData.profilePicture || 'unknown.jpg';
+                }
+            });
+        }
+
+        // Function to start mining
+        function startMining(userId) {
+            // Mining logic here
+            document.getElementById('loader').style.display = 'block';
+            setTimeout(() => {
+                // Simulate mining process completion
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('miningStatus').textContent = "Mining completed successfully!";
+            }, 5000);
+        }
+
+        // Function to check the mining status
+        function checkMiningStatus(userId) {
+            const miningRef = firebase.firestore().collection('miningStatus').doc(userId);
+            miningRef.get().then(doc => {
+                if (doc.exists) {
+                    const miningData = doc.data();
+                    const timeLeft = Math.max(miningData.nextMiningTime - Date.now(), 0);
+                    if (timeLeft > 0) {
+                        document.getElementById('countdown').style.display = 'block';
+                        document.getElementById('timeLeft').textContent = (timeLeft / 1000).toFixed(0);
+                    }
+                }
+            });
+        }
+
+        // Function to open social media links
+        function openSocialMediaLink(url) {
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+
+</html>

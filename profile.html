@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - GATVOX</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Inline Styles for Enhanced Features -->
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f0333, #1a005e);
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #1a005e;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            text-shadow: 0 0 10px #ff33a6;
+        }
+
+        .nav-item {
+            margin-left: 15px;
+            color: white;
+            text-decoration: none;
+            position: relative;
+            font-size: 1.2rem;
+        }
+
+        .nav-item:hover {
+            color: #e0e0e0;
+        }
+
+        .profile-info img.profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #ff33a6;
+
+        }
+
+       
+        /* Profile Container */
+        .profile-container {
+            background: linear-gradient(135deg, #0f0333, #1a005e);
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            border-radius: 20px;
+            border: 2px solid #25D366;
+            margin: 20px 0;
+            padding: 40px;
+        }
+
+        /* Profile Header Section */
+        .profile-header {
+            position: relative;
+            text-align: center;
+        }
+
+        .cover-photo {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+
+        }
+
+        .profile-photo {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Profile Information */
+        .profile-info {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .profile-info h3 {
+            margin: 5px 0;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .profile-info p {
+            color: gray;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .edit-profile-button {
+            margin-top: 10px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .edit-profile-button:hover {
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        /* Sections for Music, Playlists, Revenue */
+        .profile-sections {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .profile-section {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #25D366;
+            border-radius: 5px;
+            color: white;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+            flex: 1 1 30%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .profile-section.active {
+            background-color: #2B2D42;
+            color: white;
+        }
+
+        .profile-section:hover {
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        /* Sections Content */
+        #section-content {
+            margin: 20px 0;
+        }
+
+        /* Music List Styles */
+        .music-list, .playlist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .music-item, .playlist-item {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .music-item:hover, .playlist-item:hover {
+            transform: scale(1.02);
+        }
+
+        .music-thumbnail, .playlist-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .music-details, .playlist-details {
+            flex: 1;
+        }
+
+        .music-details h4, .playlist-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            color: #1a005e;
+        }
+
+        .music-details p, .playlist-details p {
+            margin: 0;
+            color: gray;
+            font-size: 0.9rem;
+        }
+
+        .music-actions, .playlist-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-actions button, .playlist-actions button {
+            background-color: #25D366;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .music-actions button:hover, .playlist-actions button:hover {
+            background-color: #128C7E;
+        }
+
+        /* Playback Controls */
+        .playback-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .playback-controls button {
+            background: none;
+            border: none;
+            color: #25D366;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .playback-controls button:hover {
+            color: #128C7E;
+        }
+
+        .playback-controls input[type="range"] {
+            width: 100px;
+        }
+
+        /* Progress Bar */
+        #progressBar {
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        #progressBar::-webkit-progress-bar {
+            background-color: #ddd;
+        }
+
+        #progressBar::-webkit-progress-value {
+            background-color: #25D366;
+        }
+
+        /* Edit Profile Modal */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+            color: #333;
+        }
+
+        .close-modal {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            color: #25D366;
+            margin-bottom: 20px;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-content label {
+            font-weight: bold;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content textarea,
+        .modal-content input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            padding: 10px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .modal-content button:hover {
+            background-color: #128C7E;
+        }
+
+        /* Notification Styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+        }
+
+        .notification {
+            padding: 15px 20px;
+            background-color: #25D366;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: slide-in 0.5s forwards, slide-out 0.5s 2.5s forwards;
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .notification.success {
+            background-color: #4CAF50;
+        }
+
+        .notification.info {
+            background-color: #2196F3;
+        }
+
+        .notification strong {
+            margin-right: 5px;
+        }
+
+        @keyframes slide-in {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slide-out {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <!-- Notification Container -->
+    <div class="notification-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Header -->
+    <header>
+        <h1 onclick="navigateTo('dashboard.html')">GATVOX</h1>
+        <a href="wallet.html" class="nav-item" aria-label="Wallet">
+            <i class="fas fa-wallet"></i>
+        </a>
+        <div>
+            <a href="profile.html" class="nav-item" aria-label="Profile">
+                <img id="profile-picture" src="unknown.jpg" alt="Profile Picture" class="profile-picture" />
+            </a>
+            
+        </div>
+    </header>
+
+    <!-- Main Profile Container -->
+    <div class="profile-container">
+        <!-- Profile Header Section -->
+        <div class="profile-header">
+            <img src="unknown.jpg" alt="Cover Photo" class="cover-photo" onclick="('cover')">
+            <img src="unknown.jpg" alt="Profile Photo" class="profile-photo" onclick="('profile')">
+
+        </div>
+
+        <!-- Profile Information -->
+        <div id="profile-info" class="profile-info">
+            <h3 id="profile-name">Loading...</h3>
+            <p id="profile-bio">Loading...</p>
+            <button class="edit-profile-button" id="edit-profile-button">Edit Profile</button>
+        </div>
+
+        <!-- Profile Sections -->
+        <div class="profile-sections">
+            <div class="profile-section active" data-section="music">MUSIC</div>
+            <div class="profile-section" data-section="playlists">PLAYLISTS</div>
+            <div class="profile-section" data-section="revenue">REVENUE</div>
+        </div>
+
+        <!-- Sections Content -->
+        <div id="section-content">
+            <!-- Dynamic Content Based on Section Selection -->
+            <div id="music" class="profile-section-content">
+                <h3>Your Music</h3>
+                <div class="music-list" id="music-list">
+                    <!-- Music Items Loaded Dynamically -->
+                </div>
+            </div>
+            <div id="playlists" class="profile-section-content" style="display: none;">
+                <h3>Your Playlists</h3>
+                <div class="playlist-list" id="playlist-list">
+                    <!-- Playlist Items Loaded Dynamically -->
+                </div>
+            </div>
+            <div id="revenue" class="profile-section-content" style="display: none;">
+                <h3>Your Revenue</h3>
+                <div id="revenue-content">
+                    <!-- Revenue Details Loaded Dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close-modal" aria-label="Close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form id="editProfileForm">
+                <label for="editName">Name</label>
+                <input type="text" id="editName" placeholder="Enter your name" required />
+
+                <label for="editBio">Bio</label>
+                <textarea id="editBio" rows="3" placeholder="Tell us about yourself" required></textarea>
+
+                <label for="editProfilePhoto">Change Profile Photo</label>
+                <input type="file" id="editProfilePhoto" accept=".png, .jpg, .jpeg" />
+
+                <label for="editCoverPhoto">Change Cover Photo</label>
+                <input type="file" id="editCoverPhoto" accept=".png, .jpg, .jpeg" />
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="playlists.html" class="nav-item">
+                <i class="bi bi-music-player"></i>
+                <span>Playlists</span>
+            </a>
+            <a href="Upload Song.html" class="nav-item">
+            <i class="bi bi-plus-circle"></i>
+            <span>Upload</span>
+        </a>
+            <a href="music.html" class="nav-item">
+                <i class="bi bi-music-note-beamed"></i>
+                <span>Music</span>
+            </a>
+            <a href="trending.html" class="nav-item">
+                <i class="bi bi-fire"></i>
+                <span>Trending</span>
+            </a>
+        </div>
+
+<script>
+        // Firebase Initialization
+        fetch("/api/firebase-config")
+            .then(response => response.json())
+            .then(config => {
+                firebase.initializeApp(config);
+                const db = firebase.firestore();
+            }).catch(error => {
+                console.error("Failed to load Firebase configuration:", error);
+            });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if the user is online
+            if (!navigator.onLine) {
+                document.getElementById('offline-message').style.display = "block";
+                return;
+            }
+
+            // Retrieve user ID from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('user_id');
+
+            if (!userId) {
+                alert("No user ID found. Please launch the app from Telegram.");
+                return;
+            }
+
+            // Validate user ID on the server side (via Firebase)
+            firebase.auth().onAuthStateChanged(user => {
+                if (user && user.uid === userId) {
+                    // User is logged in and valid
+                    fetchUserProfile(userId);
+                    checkMiningStatus(userId);
+                } else {
+                    alert("Unauthorized access. Please log in.");
+                    window.location.href = "/login.html";
+                }
+            });
+
+        // Authentication State Listener
+         //auth.onAuthStateChanged(user => {
+            // if (user) {
+                fetchUserProfile(user.uid);
+                loadMusic(user.uid);
+                loadPlaylists(user.uid);
+                loadRevenue(user.uid);
+         //    } else {
+            //     window.location.href = 'login.html'; // Redirect to login if not authenticated
+           //  }
+       //  });
+
+        // Fetch User Profile Data from Firebase
+        function fetchUserProfile(userId) {
+            const userRef = database.ref(`users/${userId}`);
+            userRef.on('value', snapshot => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('profile-name').innerText = data.name || 'Unknown';
+                    document.getElementById('profile-bio').innerText = data.bio || 'Music Enthusiast | Artist';
+                    document.querySelector('.profile-photo').src = data.profilePhotoURL || 'unknown.jpg';
+                    document.querySelector('.cover-photo').src = data.coverPhotoURL || 'unknown.jpg';
+                } else {
+                    document.getElementById('profile-name').innerText = 'Unknown';
+                    document.getElementById('profile-bio').innerText = 'Music Enthusiast | Artist';
+                    document.querySelector('.profile-photo').src = 'unknown.jpg';
+                    document.querySelector('.cover-photo').src = 'unknown.jpg';
+                }
+            });
+        }
+
+        // Navigation Function
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        // Section Switching Function
+        const profileSections = document.querySelectorAll('.profile-section');
+        profileSections.forEach(section => {
+            section.addEventListener('click', () => {
+                // Remove active class from all sections
+                profileSections.forEach(sec => sec.classList.remove('active'));
+                // Add active class to the clicked section
+                section.classList.add('active');
+                // Show the corresponding content
+                const sectionName = section.getAttribute('data-section');
+                showSection(sectionName);
+            });
+        });
+
+        function showSection(sectionName) {
+            const sections = document.querySelectorAll('.profile-section-content');
+            sections.forEach(sec => {
+                if (sec.id === sectionName) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+
+        // Edit Profile Modal Handling
+        const editProfileButton = document.getElementById('edit-profile-button');
+        const editProfileModal = document.getElementById('editProfileModal');
+        const closeModalButton = document.querySelector('.close-modal');
+
+        editProfileButton.addEventListener('click', () => {
+            editProfileModal.style.display = 'flex';
+            editProfileModal.setAttribute('aria-hidden', 'false');
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            editProfileModal.style.display = 'none';
+            editProfileModal.setAttribute('aria-hidden', 'true');
+        });
+
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', (event) => {
+            if (event.target === editProfileModal) {
+                editProfileModal.style.display = 'none';
+                editProfileModal.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Form submission for editing profile
+        const editProfileForm = document.getElementById('editProfileForm');
+        editProfileForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!validateEditProfileForm()) {
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (user) {
+                const userId = user.uid;
+                const name = document.getElementById('editName').value.trim();
+                const bio = document.getElementById('editBio').value.trim();
+                const profilePhoto = document.getElementById('editProfilePhoto').files[0];
+                const coverPhoto = document.getElementById('editCoverPhoto').files[0];
+
+                const updates = {
+                    name: sanitizeHTML(name),
+                    bio: sanitizeHTML(bio)
+                };
+
+                // Upload Profile Photo if changed
+                if (profilePhoto) {
+                    const profilePhotoRef = storage.ref(`profilePhotos/${userId}/${sanitizeFilename(profilePhoto.name)}`);
+                    profilePhotoRef.put(profilePhoto).then(snapshot => {
+                        return snapshot.ref.getDownloadURL();
+                    }).then(url => {
+                        updates.profilePhotoURL = url;
+                        return database.ref(`users/${userId}`).update(updates);
+                    }).then(() => {
+                        showNotification("Success", "Profile updated successfully.", "success");
+                        editProfileModal.style.display = 'none';
+                        editProfileForm.reset();
+                    }).catch(error => {
+                        console.error("Error updating profile photo:", error);
+                        showNotification("Error", "Failed to update profile photo.", "error");
+                    });
+                }
+
+                // Upload Cover Photo if changed
+                if (coverPhoto) {
+                    const coverPhotoRef = storage.ref(`coverPhotos/${userId}/${sanitizeFilename(coverPhoto.name)}`);
+                    coverPhotoRef.put(coverPhoto).then(snapshot => {
+                        return snapshot.ref.getDownloadURL();
+                    }).then(url => {
+                        updates.coverPhotoURL = url;
+                        return database.ref(`users/${userId}`).update(updates);
+                    }).then(() => {
+                        showNotification("Success", "Profile updated successfully.", "success");
+                        editProfileModal.style.display = 'none';
+                        editProfileForm.reset();
+                    }).catch(error => {
+                        console.error("Error updating cover photo:", error);
+                        showNotification("Error", "Failed to update cover photo.", "error");
+                    });
+                }
+
+                // If no photos to upload, just update name and bio
+                if (!profilePhoto && !coverPhoto) {
+                    database.ref(`users/${userId}`).update(updates).then(() => {
+                        showNotification("Success", "Profile updated successfully.", "success");
+                        editProfileModal.style.display = 'none';
+                        editProfileForm.reset();
+                    }).catch(error => {
+                        console.error("Error updating profile:", error);
+                        showNotification("Error", "Failed to update profile.", "error");
+                    });
+                }
+            }
+        });
+
+        // Validation Function for Edit Profile Form
+        function validateEditProfileForm() {
+            const name = document.getElementById('editName').value.trim();
+            const bio = document.getElementById('editBio').value.trim();
+            const profilePhoto = document.getElementById('editProfilePhoto').files[0];
+            const coverPhoto = document.getElementById('editCoverPhoto').files[0];
+
+            if (name === '') {
+                showNotification("Error", "Name is required.", "error");
+                return false;
+            }
+
+            if (bio === '') {
+                showNotification("Error", "Bio is required.", "error");
+                return false;
+            }
+
+            if (profilePhoto && !['image/jpeg', 'image/png'].includes(profilePhoto.type)) {
+                showNotification("Error", "Only JPG or PNG profile photos are allowed.", "error");
+                return false;
+            }
+
+            if (coverPhoto && !['image/jpeg', 'image/png'].includes(coverPhoto.type)) {
+                showNotification("Error", "Only JPG or PNG cover photos are allowed.", "error");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Function to sanitize user input to prevent XSS
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        // Function to sanitize filenames
+        function sanitizeFilename(filename) {
+            return filename.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        }
+
+        // Function to display notifications
+        function showNotification(type, message, category = "info") {
+            const notificationContainer = document.querySelector('.notification-container');
+            const notification = document.createElement("div");
+            notification.classList.add("notification", category);
+            notification.innerHTML = `<strong>${type}:</strong> ${sanitizeHTML(message)}`;
+            notificationContainer.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Function to trigger file upload for profile or cover photo
+        function triggerCoverPhotoUpload(type) {
+            if (type === 'profile') {
+                document.getElementById('editProfilePhoto').click();
+            } else if (type === 'cover') {
+                document.getElementById('editCoverPhoto').click();
+            }
+        }
+
+        // Load Music Section
+        function loadMusic(userId) {
+            const musicListContainer = document.getElementById('music-list');
+            musicListContainer.innerHTML = ''; // Clear existing content
+
+            const musicRef = database.ref('music').orderByChild('uploadedBy').equalTo(userId);
+            musicRef.on('value', snapshot => {
+                const musicData = snapshot.val();
+                musicListContainer.innerHTML = ''; // Clear previous data
+
+                if (musicData) {
+                    for (const musicId in musicData) {
+                        const musicItem = musicData[musicId];
+                        const musicElement = createMusicElement(musicId, musicItem);
+                        musicListContainer.appendChild(musicElement);
+                    }
+                } else {
+                    musicListContainer.innerHTML = '<p>No music uploaded yet.</p>';
+                }
+            });
+        }
+
+        // Create Music Element
+        function createMusicElement(musicId, musicItem) {
+            const musicElement = document.createElement('div');
+            musicElement.classList.add('music-item');
+
+            const thumbnail = document.createElement('img');
+            thumbnail.classList.add('music-thumbnail');
+            thumbnail.src = sanitizeURL(musicItem.thumbnailURL);
+            thumbnail.alt = `Thumbnail for ${sanitizeHTML(musicItem.title)}`;
+            thumbnail.addEventListener('click', () => playMusic(musicId));
+
+            const details = document.createElement('div');
+            details.classList.add('music-details');
+
+            const title = document.createElement('h4');
+            title.innerText = musicItem.title;
+
+            const artist = document.createElement('p');
+            artist.innerText = `Artist: ${musicItem.artist}`;
+
+            const actions = document.createElement('div');
+            actions.classList.add('music-actions');
+
+            const tipButton = document.createElement('button');
+            tipButton.innerText = 'Tip';
+            tipButton.addEventListener('click', () => openTipModal(musicItem.uploadedBy, musicId));
+
+            actions.appendChild(tipButton);
+
+            details.appendChild(title);
+            details.appendChild(artist);
+            details.appendChild(actions);
+
+            // Playback Controls
+            const playbackControls = document.createElement('div');
+            playbackControls.classList.add('playback-controls');
+
+            const playButton = document.createElement('button');
+            playButton.innerHTML = '<i class="bi bi-play-fill"></i>';
+            playButton.addEventListener('click', () => togglePlayPause(musicId));
+
+            const pauseButton = document.createElement('button');
+            pauseButton.innerHTML = '<i class="bi bi-pause-fill"></i>';
+            pauseButton.style.display = 'none';
+            pauseButton.addEventListener('click', () => togglePlayPause(musicId));
+
+            const progressBar = document.createElement('div');
+            progressBar.id = `progressBar-${musicId}`;
+            progressBar.classList.add('progress');
+            progressBar.innerHTML = `<div class="progress-bar" id="progressBarValue-${musicId}"></div>`;
+
+            const audio = document.createElement('audio');
+            audio.src = sanitizeURL(musicItem.musicURL);
+            audio.id = `audio-${musicId}`;
+            audio.preload = 'metadata';
+
+            // Update duration once metadata is loaded
+            audio.addEventListener('loadedmetadata', () => {
+                // You can display duration if needed
+            });
+
+            // Update progress as the audio plays
+            audio.addEventListener('timeupdate', () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                document.getElementById(`progressBarValue-${musicId}`).style.width = `${progress}%`;
+            });
+
+            // Reset play/pause buttons when audio ends
+            audio.addEventListener('ended', () => {
+                playButton.style.display = 'block';
+                pauseButton.style.display = 'none';
+                document.getElementById(`progressBarValue-${musicId}`).style.width = '0%';
+            });
+
+            playbackControls.appendChild(playButton);
+            playbackControls.appendChild(pauseButton);
+            playbackControls.appendChild(progressBar);
+
+            details.appendChild(playbackControls);
+            musicElement.appendChild(thumbnail);
+            musicElement.appendChild(details);
+            musicElement.appendChild(audio);
+
+            return musicElement;
+        }
+
+        // Function to toggle play/pause
+        function togglePlayPause(musicId) {
+            const audio = document.getElementById(`audio-${musicId}`);
+            const playButton = audio.parentElement.querySelector('.playback-controls button:nth-child(1)');
+            const pauseButton = audio.parentElement.querySelector('.playback-controls button:nth-child(2)');
+
+            if (audio.paused) {
+                audio.play();
+                playButton.style.display = 'none';
+                pauseButton.style.display = 'block';
+            } else {
+                audio.pause();
+                playButton.style.display = 'block';
+                pauseButton.style.display = 'none';
+            }
+        }
+
+        // Function to play music (focuses on the audio element)
+        function playMusic(musicId) {
+            togglePlayPause(musicId);
+        }
+
+        // Load Playlists Section
+        function loadPlaylists(userId) {
+            const playlistListContainer = document.getElementById('playlist-list');
+            playlistListContainer.innerHTML = ''; // Clear existing content
+
+            const playlistsRef = database.ref('playlists').orderByChild('createdBy').equalTo(userId);
+            playlistsRef.on('value', snapshot => {
+                const playlistsData = snapshot.val();
+                playlistListContainer.innerHTML = ''; // Clear previous data
+
+                if (playlistsData) {
+                    for (const playlistId in playlistsData) {
+                        const playlistItem = playlistsData[playlistId];
+                        const playlistElement = createPlaylistElement(playlistId, playlistItem);
+                        playlistListContainer.appendChild(playlistElement);
+                    }
+                } else {
+                    playlistListContainer.innerHTML = '<p>No playlists created yet.</p>';
+                }
+            });
+        }
+
+        // Create Playlist Element
+        function createPlaylistElement(playlistId, playlistItem) {
+            const playlistElement = document.createElement('div');
+            playlistElement.classList.add('playlist-item');
+
+            const thumbnail = document.createElement('img');
+            thumbnail.classList.add('playlist-thumbnail');
+            thumbnail.src = sanitizeURL(playlistItem.thumbnailURL);
+            thumbnail.alt = `Thumbnail for ${sanitizeHTML(playlistItem.name)}`;
+            thumbnail.addEventListener('click', () => navigateTo(`playlist.html?id=${playlistId}`));
+
+            const details = document.createElement('div');
+            details.classList.add('playlist-details');
+
+            const name = document.createElement('h4');
+            name.innerText = playlistItem.name;
+
+            const description = document.createElement('p');
+            description.innerText = playlistItem.description || 'No description provided.';
+
+            const actions = document.createElement('div');
+            actions.classList.add('playlist-actions');
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.addEventListener('click', () => deletePlaylist(playlistId));
+
+            actions.appendChild(deleteButton);
+
+            details.appendChild(name);
+            details.appendChild(description);
+            details.appendChild(actions);
+
+            playlistElement.appendChild(thumbnail);
+            playlistElement.appendChild(details);
+
+            return playlistElement;
+        }
+
+        // Delete Playlist Function
+        function deletePlaylist(playlistId) {
+            if (confirm("Are you sure you want to delete this playlist?")) {
+                database.ref(`playlists/${playlistId}`).remove()
+                    .then(() => {
+                        showNotification("Success", "Playlist deleted successfully.", "success");
+                    })
+                    .catch(error => {
+                        console.error("Error deleting playlist:", error);
+                        showNotification("Error", "Failed to delete playlist.", "error");
+                    });
+            }
+        }
+
+        // Load Revenue Section
+        function loadRevenue(userId) {
+            const revenueContent = document.getElementById('revenue-content');
+            revenueContent.innerHTML = ''; // Clear existing content
+
+            const revenueRef = database.ref(`users/${userId}/revenue`);
+            revenueRef.on('value', snapshot => {
+                const revenueData = snapshot.val();
+                if (revenueData) {
+                    let totalRevenue = 0;
+                    let htmlContent = '<h4>Total Revenue: $';
+
+                    for (const revenueId in revenueData) {
+                        const revenueItem = revenueData[revenueId];
+                        totalRevenue += parseFloat(revenueItem.amount) || 0;
+                        htmlContent += `${revenueItem.amount} `;
+                    }
+
+                    htmlContent += `</h4>`;
+                    revenueContent.innerHTML = htmlContent;
+                } else {
+                    revenueContent.innerHTML = '<p>No revenue data available.</p>';
+                }
+            });
+        }
+
+        // Tipping Functionality
+        function openTipModal(artistId, musicId) {
+            const tipModal = document.createElement('div');
+            tipModal.classList.add('modal');
+            tipModal.setAttribute('aria-hidden', 'false');
+            tipModal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal" aria-label="Close">&times;</span>
+                    <h2>Tip Artist</h2>
+                    <p>Your Balance: $<span id="user-balance">Loading...</span></p>
+                    <label for="tipAmount">Amount to Tip:</label>
+                    <input type="number" id="tipAmount" placeholder="Enter amount" min="1" />
+                    <button id="sendTipButton">Send Tip</button>
+                </div>
+            `;
+            document.body.appendChild(tipModal);
+
+            // Fetch User Balance
+            const userId = auth.currentUser.uid;
+            const walletRef = database.ref(`wallets/${userId}/balance`);
+            walletRef.once('value').then(snapshot => {
+                const balance = snapshot.val() || 0;
+                document.getElementById('user-balance').innerText = balance.toFixed(2);
+            }).catch(error => {
+                console.error("Error fetching wallet balance:", error);
+                showNotification("Error", "Failed to fetch your wallet balance.", "error");
+                tipModal.remove();
+            });
+
+            // Close Modal Event
+            tipModal.querySelector('.close-modal').addEventListener('click', () => {
+                tipModal.remove();
+            });
+
+            // Send Tip Event
+            tipModal.querySelector('#sendTipButton').addEventListener('click', () => {
+                const amount = parseFloat(document.getElementById('tipAmount').value);
+                if (isNaN(amount) || amount <= 0) {
+                    showNotification("Error", "Please enter a valid tip amount.", "error");
+                    return;
+                }
+
+                // Check User Balance
+                walletRef.once('value').then(snapshot => {
+                    const balance = snapshot.val() || 0;
+                    if (amount > balance) {
+                        showNotification("Error", "Insufficient balance.", "error");
+                        return;
+                    }
+
+                    // Deduct from Tipper
+                    database.ref(`wallets/${userId}/balance`).set(balance - amount);
+
+                    // Add to Recipient
+                    const recipientRef = database.ref(`wallets/${artistId}/balance`);
+                    recipientRef.once('value').then(recSnapshot => {
+                        const recipientBalance = recSnapshot.val() || 0;
+                        recipientRef.set(recipientBalance + amount);
+                    });
+
+                    // Update Music Tips
+                    const musicTipRef = database.ref(`music/${musicId}/tips`);
+                    musicTipRef.transaction(currentTips => (currentTips || 0) + amount);
+
+                    showNotification("Success", "Tip sent successfully.", "success");
+                    tipModal.remove();
+                }).catch(error => {
+                    console.error("Error sending tip:", error);
+                    showNotification("Error", "Failed to send tip.", "error");
+                });
+            });
+        }
+
+        // Function to sanitize URLs
+        function sanitizeURL(url) {
+            const pattern = /^(https?:\/\/)[^\s$.?#].[^\s]*$/gm;
+            return pattern.test(url) ? url : '#';
+        }
+
+        // Function to sanitize filenames
+        function sanitizeFilename(filename) {
+            return filename.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        }
+
+        // Function to display notifications
+        function showNotification(type, message, category = "info") {
+            const notificationContainer = document.querySelector('.notification-container');
+            const notification = document.createElement("div");
+            notification.classList.add("notification", category);
+            notification.innerHTML = `<strong>${type}:</strong> ${sanitizeHTML(message)}`;
+            notificationContainer.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Function to sanitize user input to prevent XSS
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        // Load Playlists Section on Page Load
+        function loadPlaylists(userId) {
+            // Function defined earlier
+        }
+
+        // Load Revenue Section on Page Load
+        function loadRevenue(userId) {
+            // Function defined earlier
+        }
+
+    </script>
+
+    <!-- Placeholder for Dynamic Content (if any) -->
+    <!-- Example: Playlist Management, Revenue Details, etc. -->
+
+</body>
+
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - GATVOX</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Global Styles */
+        body {
+         font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0333, #1a005e);
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            color: #fff;
+            margin: 0;
+        }
+
+        .wallet {
+            padding: 20px;
+            width: 100%;
+            max-width: 1400px;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 80px; /* To prevent overlap with bottom nav */
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            width: 100%;
+        }
+
+        h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff33a6;
+        }
+
+        /* Wallet Header */
+        .wallet-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            padding: 20px;
+        }
+
+        .wallet-header h2 {
+            color: #fff;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff33a6;
+        }
+
+        .wallet-header p {
+            color: #A9A9A9;
+            margin: 0;
+            font-size: 1rem;
+            word-break: break-all;
+        }
+
+        .wallet-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .wallet-buttons button,
+        #copy-button {
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .wallet-buttons button:hover,
+        #copy-button:hover {
+            background: linear-gradient(45deg, #ff33a6, #d021ff);
+            box-shadow: 0 0 20px #ff33a6, 0 0 40px #d021ff;
+            transform: scale(1.05);
+        }
+
+        /* Token Display */
+        .token-list {
+            text-align: center;
+            padding: 20px 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .token-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .token-item:last-child {
+            border-bottom: none;
+        }
+
+        .token-item i {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .token-item div {
+            display: flex;
+            align-items: center;
+        }
+
+        .token-item span {
+            flex: 1;
+            text-align: right;
+        }
+
+        /* Transaction History */
+        .transaction-history {
+            padding: 20px 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            background-color: rgba(20, 10, 40, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .transaction-history h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff33a6;
+        }
+
+        .transaction-history ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .transaction-history li {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .transaction-history li:last-child {
+            border-bottom: none;
+        }
+
+        /* Notification Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #2A2A2A;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin: 0 0 10px 0;
+            color: #25D366;
+        }
+
+        .modal-content p {
+            color: #FFFFFF;
+        }
+
+        .close-modal {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #FFFFFF;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1db954;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1;
+        }
+
+        .bottom-nav .nav-item {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #1ed760;
+        }
+
+        /* Notification Styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1500;
+        }
+
+        .notification {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            opacity: 0.95;
+            display: flex;
+            align-items: center;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            min-width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification.success {
+            background-color: #4CAF50;
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .notification.info {
+            background-color: #2196F3;
+        }
+
+        .notification i {
+            margin-right: 10px;
+        }
+
+        @keyframes fadein {
+            from {
+                right: -300px;
+                opacity: 0;
+            }
+
+            to {
+                right: 20px;
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                right: 20px;
+                opacity: 0.95;
+            }
+
+            to {
+                right: -300px;
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .wallet-header h2 {
+                font-size: 28px;
+            }
+
+            .wallet-buttons button,
+            #copy-button {
+                padding: 8px 15px;
+                font-size: 14px;
+                margin: 0 10px;
+            }
+
+            .token-item i {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wallet-header h2 {
+                font-size: 24px;
+            }
+
+            .wallet-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .wallet-buttons button,
+            #copy-button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .transaction-history li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .transaction-history li span {
+                text-align: left;
+            }
+        }
+
+        /* Modal Forms */
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-form label {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .modal-form input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .modal-form button {
+            padding: 10px;
+            background-color: #1db954;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .modal-form button:hover {
+            background: #17a44d;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Notification Container -->
+    <div class="notification-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="dashboard.html" style="color: white; text-decoration:none;"><h1>GATVOX</h1></a>
+
+            <div class="profile-info">
+                <a href="profile.html"><img id="profile-picture" src="unknown.jpg" alt="Profile Picture" class="profile-picture" /></a>
+                <a href="profile.html" style="text-decoration: none; color: white;">
+                    <span id="username" class="username">Unknown</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <a href="dashboard.html" class="nav-item" aria-label="Home">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="playlists.html" class="nav-item" aria-label="Playlists">
+                <i class="bi bi-music-player"></i>
+                <span>Playlists</span>
+            </a>
+            <a href="Upload Song.html" class="nav-item" aria-label="Upload">
+                <i class="bi bi-plus-circle"></i>
+                <span>Upload</span>
+            </a>
+            <a href="music.html" class="nav-item" aria-label="Music">
+                <i class="bi bi-music-note-beamed"></i>
+                <span>Music</span>
+            </a>
+            <a href="trending.html" class="nav-item" aria-label="Trending">
+                <i class="bi bi-fire"></i>
+                <span>Trending</span>
+            </a>
+        </div>
+
+        <h3>My Wallet</h3>
+
+        <div class="wallet">
+            <div class="wallet-header">
+                <h2 id="balance">$0.00</h2> <!-- Total USDT balance -->
+                <p id="wallet-address">0X.......j57</p>
+                <button id="copy-button" aria-label="Copy Wallet Address">Copy Wallet</button>
+            </div>
+
+            <div class="wallet-buttons">
+                <button id="send-button" aria-label="Send Tokens">Send</button>
+                <button id="receive-button" aria-label="Receive Tokens">Receive</button>
+                <button id="tip-button" aria-label="Tip User">Tip</button>
+            </div>
+
+            <div class="token-list">
+                <div class="token-item" style="text-shadow: 0 0 10px #ff33a6;">
+                    <div>
+                        <i class="bi bi-cash-coin"></i>
+                        <span>COINS</span>
+                    </div>
+                    <span>AMOUNT</span> <!-- GVT Coin Amount -->
+                    <span>VALUE</span> <!-- GVT Coin Value in USDT -->
+                </div>
+
+                <div class="token-item">
+                    <div>
+                        <i class="bi bi-cash-coin"></i>
+                        <span>GVT</span>
+                    </div>
+                    <span id="gvt-amount">0.00</span> <!-- GVT Coin Amount -->
+                    <span id="gvt-usdt">($0.00)</span> <!-- GVT Coin Value in USDT -->
+                </div>
+                <div class="token-item">
+                    <div>
+                        <i class="bi bi-cash-coin"></i>
+                        <span>AVAX</span>
+                    </div>
+                    <span id="ton-amount">0.00</span> <!-- TON Coin Amount -->
+                    <span id="ton-usdt">($0.00)</span> <!-- TON Coin Value in USDT -->
+                </div>
+                <div class="token-item">
+                    <div>
+                        <i class="bi bi-cash-coin"></i>
+                        <span>ARENA</span>
+                    </div>
+                    <span id="usdt-amount">0.00</span> <!-- USDT Coin Amount -->
+                </div>
+            </div>
+
+            <div class="transaction-history">
+                <h2>Transaction History</h2>
+                <ul id="transaction-list">
+                    <!-- Transactions will be dynamically loaded here -->
+                    <li>No recent transactions.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Send Tokens Modal -->
+        <div id="send-modal" class="modal" aria-hidden="true">
+            <div class="modal-content">
+                <span class="close-modal" aria-label="Close">&times;</span>
+                <h3>Send Tokens</h3>
+                <form id="send-form" class="modal-form">
+                    <label for="send-recipient">Recipient Wallet Address:</label>
+                    <input type="text" id="send-recipient" name="recipient" required pattern="^GATVOX[a-zA-Z0-9]{20}$" title="Enter a valid GATVOX wallet address.">
+
+                    <label for="send-amount">Amount to Send (GVT):</label>
+                    <input type="number" id="send-amount" name="amount" min="0.01" step="0.01" required>
+
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Receive Tokens Modal -->
+        <div id="receive-modal" class="modal" aria-hidden="true">
+            <div class="modal-content">
+                <span class="close-modal" aria-label="Close">&times;</span>
+                <h3>Receive Tokens</h3>
+                <p>Share your wallet address to receive GVT:</p>
+                <p id="receive-wallet-address" style="word-break: break-all;">0X.......j57</p>
+                <button onclick="copyReceiveAddress()" aria-label="Copy Receive Address">Copy Address</button>
+            </div>
+        </div>
+
+        <!-- Tip User Modal -->
+        <div id="tip-modal" class="modal" aria-hidden="true">
+            <div class="modal-content">
+                <span class="close-modal" aria-label="Close">&times;</span>
+                <h3>Tip User</h3>
+                <form id="tip-form" class="modal-form">
+                    <label for="tip-user-id">User ID:</label>
+                    <input type="text" id="tip-user-id" name="userId" required pattern="^[a-zA-Z0-9_-]{3,16}$" title="Enter a valid User ID.">
+
+                    <label for="tip-amount">Amount to Tip (GVT):</label>
+                    <input type="number" id="tip-amount" name="amount" min="0.01" step="0.01" required>
+
+                    <button type="submit">Tip</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Notification Modal (Removed as per improved notification system) -->
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script>
+
+        
+        // Firebase Initialization
+        fetch("/api/firebase-config")
+            .then(response => response.json())
+            .then(config => {
+                firebase.initializeApp(config);
+                const db = firebase.firestore();
+            }).catch(error => {
+                console.error("Failed to load Firebase configuration:", error);
+            });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if the user is online
+            if (!navigator.onLine) {
+                document.getElementById('offline-message').style.display = "block";
+                return;
+            }
+
+            // Retrieve user ID from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('user_id');
+
+            if (!userId) {
+                alert("No user ID found. Please launch the app from Telegram.");
+                return;
+            }
+
+            // Validate user ID on the server side (via Firebase)
+            firebase.auth().onAuthStateChanged(user => {
+                if (user && user.uid === userId) {
+                    // User is logged in and valid
+                    fetchUserProfile(userId);
+                    checkMiningStatus(userId);
+                } else {
+                    alert("Unauthorized access. Please log in.");
+                    window.location.href = "/login.html";
+                }
+            });
+        // Initialize Wallet Balances
+        let gvtBalance = 0;
+        let tonBalance = 0;
+        let usdtBalance = 0;
+        const usdtValueGVT = 0.25; // Example: 1 GVT = 0.25 USDT
+        const usdtValueTON = 0.5;  // Example: 1 TON = 0.5 USDT
+
+        // Update the wallet display with balances and USDT values
+        function updateWallet() {
+            const gvtUSDT = (gvtBalance * usdtValueGVT).toFixed(2);
+            const tonUSDT = (tonBalance * usdtValueTON).toFixed(2);
+            usdtBalance = (parseFloat(gvtUSDT) + parseFloat(tonUSDT)).toFixed(2);
+
+            document.getElementById('gvt-amount').textContent = gvtBalance.toFixed(2);
+            document.getElementById('gvt-usdt').textContent = `($${gvtUSDT})`;
+
+            document.getElementById('ton-amount').textContent = tonBalance.toFixed(2);
+            document.getElementById('ton-usdt').textContent = `($${tonUSDT})`;
+
+            document.getElementById('usdt-amount').textContent = `$${usdtBalance}`;
+
+            document.getElementById('balance').textContent = `$${usdtBalance}`;
+        }
+
+        // Function to copy wallet address to clipboard
+        function copyWalletAddress() {
+            const walletAddress = document.getElementById('wallet-address').textContent;
+            navigator.clipboard.writeText(walletAddress).then(() => {
+                showNotification('Wallet address copied to clipboard!', 'success');
+            }).catch(err => {
+                showNotification('Failed to copy wallet address.', 'error');
+            });
+        }
+
+        // Function to copy receive address (used in Receive Modal)
+        function copyReceiveAddress() {
+            const walletAddress = document.getElementById('receive-wallet-address').textContent;
+            navigator.clipboard.writeText(walletAddress).then(() => {
+                showNotification('Wallet address copied to clipboard!', 'success');
+            }).catch(err => {
+                showNotification('Failed to copy wallet address.', 'error');
+            });
+        }
+
+        // Function to send tokens
+        function sendTokens(recipient, amount) {
+            // Implement secure send logic here (e.g., interact with blockchain)
+            // For demonstration, we'll simulate the transaction
+            gvtBalance -= parseFloat(amount);
+            updateWallet();
+            addTransaction('Send', parseFloat(amount), recipient);
+            showNotification(`Sent ${amount} GVT to ${recipient}.`, 'success');
+        }
+
+        // Function to receive tokens
+        function receiveTokens() {
+            // Typically, receiving tokens involves sharing your wallet address
+            // This function can include backend logic or blockchain event listeners
+            showNotification('Ready to receive tokens!', 'info');
+        }
+
+        // Function to tip a user with GVT
+        function tipUser(userId, amount) {
+            // Implement secure tip logic here (e.g., interact with backend)
+            // For demonstration, we'll simulate the transaction
+            gvtBalance -= parseFloat(amount);
+            updateWallet();
+            addTransaction('Tip', parseFloat(amount), userId);
+            showNotification(`Tipped ${amount} GVT to user ${userId}.`, 'success');
+        }
+
+        // Function to add a transaction to the history
+        function addTransaction(type, amount, details) {
+            const transactionList = document.getElementById('transaction-list');
+            if (transactionList.firstElementChild && transactionList.firstElementChild.textContent === "No recent transactions.") {
+                transactionList.innerHTML = ''; // Remove the placeholder
+            }
+            const transaction = document.createElement('li');
+            transaction.textContent = `${type}: ${amount} GVT to ${details}`;
+            transactionList.prepend(transaction);
+        }
+
+        // Function to show notifications
+        function showNotification(message, type) {
+            const notificationContainer = document.querySelector('.notification-container');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            let iconClass;
+            switch (type) {
+                case 'success':
+                    iconClass = 'fa-check-circle';
+                    break;
+                case 'error':
+                    iconClass = 'fa-exclamation-circle';
+                    break;
+                case 'info':
+                    iconClass = 'fa-info-circle';
+                    break;
+                default:
+                    iconClass = 'fa-info-circle';
+            }
+            notification.innerHTML = `<i class="fas ${iconClass}"></i> ${sanitizeHTML(message)}`;
+            notificationContainer.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+     </script>
+</body>
+
+</html>
